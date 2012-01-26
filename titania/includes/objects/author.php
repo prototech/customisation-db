@@ -350,32 +350,23 @@ class titania_author extends titania_message_object
 				$type_row = phpbb::$db->sql_fetchrow($result);
 				phpbb::$db->sql_freeresult($result);
 				$contrib_cnt = (int) $type_row['contrib_cnt'];
-				$cat_name = $type_row['category_name'];
-				$cat_name_clean = $type_row['category_name_clean'];
-
-				if ($contrib_cnt > 0)
-				{
-					if ($contrib_cnt == 1)
-					{
-						$type_list[] = (isset(phpbb::$user->langs['AUTHOR_' . strtoupper($cat_name_clean) . '_ONE'])) ? phpbb::$user->lang['AUTHOR_' . strtoupper($cat_name_clean) . '_ONE'] : '1 ' . $cat_name;
-					}
-					else
-					{
-						$type_list[] = (isset(phpbb::$user->lang['AUTHOR_' . strtoupper($cat_name_clean)])) ? sprintf(phpbb::$user->lang['AUTHOR_' . strtoupper($cat_name_clean)], $contrib_cnt) : $contrib_cnt . ' ' . $cat_name;
-					}
-				}
-				continue;
+			}
+			else
+			{
+				$contrib_cnt = $this->{$type->author_count};
 			}
 
-			if ($this->{$type->author_count} > 0)
+			if ($contrib_cnt > 0)
 			{
-				if ($this->{$type->author_count} == 1)
+				$lang_key = 'AUTHOR_' . strtoupper($type->name) . 'S';
+				
+				if ($contrib_cnt == 1)
 				{
-					$type_list[] = (isset(phpbb::$user->lang[strtoupper($type->author_count) . '_ONE'])) ? phpbb::$user->lang[strtoupper($type->author_count) . '_ONE'] : '{' . strtoupper($type->author_count) . '_ONE}';
+					$type_list[] = (isset(phpbb::$user->lang[$lang_key . '_ONE'])) ? phpbb::$user->lang[$lang_key . '_ONE'] : '{' . $lang_key . '_ONE}';
 				}
 				else
 				{
-					$type_list[] = (isset(phpbb::$user->lang[strtoupper($type->author_count)])) ? sprintf(phpbb::$user->lang[strtoupper($type->author_count)], $this->{$type->author_count}) : '{' . strtoupper($type->author_count) . '}';
+					$type_list[] = (isset(phpbb::$user->lang[$lang_key])) ? sprintf(phpbb::$user->lang[$lang_key], $contrib_cnt) : '{' . $lang_key . '}';
 				}
 			}
 		}
