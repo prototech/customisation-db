@@ -721,6 +721,7 @@ class titania_attachment extends titania_database_object
 			if ($contrib_translation && $attachment['attachment_comment'])
 			{
 				$download_name = $attachment['attachment_comment'];
+				$comment = '';
 			}
 			else
 			{
